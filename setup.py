@@ -17,6 +17,10 @@ import revised_bart
 with open("README.md", "rb") as f:
     long_descr = f.read().decode("utf-8")
 
+# read requirements
+with open('requirements.txt') as f:
+    required = f.read().splitlines()
+
 def main():
     if float(sys.version[:3])<3.0:
         sys.stderr.write("CRITICAL: Python version must be higher than or equal to 3.0!\n")
@@ -54,14 +58,7 @@ def main():
               'Topic :: Scientific/Engineering :: Bio-Informatics',
               'Programming Language :: Python',
               ],
-          install_requires=[
-              'numpy',
-              'pandas',
-              'scipy',
-              'matplotlib',
-              ],
-          #cmdclass = command_classes,
-          
+          install_requires=required,
           )
 
 if __name__=='__main__': 
