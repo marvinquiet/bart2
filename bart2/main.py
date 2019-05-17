@@ -2,10 +2,7 @@ import os,sys
 from types import SimpleNamespace
 
 # import from package
-from bart2 import OptValidator
-from bart2 import ReadCount
-from bart2 import RPRegress, EnhancerIdentifier
-from bart2 import AUCcalc, StatTest
+from bart2 import OptValidator, ReadCount, RPRegress, EnhancerIdentifier, AUCcalc, StatTest
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 ADAPTIVE_LASSO_MAXSAMPLES = 20 # TODO: should we fix it?
@@ -37,7 +34,7 @@ def bart(options):
         '''
         sys.stdout.write("Do adaptive lasso to select informative H3K27ac samples...\n")
 
-        sys.stdout.write("Generate parameters for regression step...")
+        sys.stdout.write("Generate parameters for regression step...\n")
         if options.refseq:
             rp_args = \
                 SimpleNamespace(genome=args.species, \
@@ -75,7 +72,14 @@ def bart(options):
         selected samples file, gene file, output directory, species, UDHS, rpkm matrix
         '''
         sys.stdout.write("Generate cis-regulatory profile...\n")
-        EnhancerIdentifier.main(regression_info, args.ofilename, args.dhsfile, args.rpkm)
+
+        sys.stdout.write("Generate parameters for enhancer profile generation...\n")
+        enhancer_args = \
+                SimpleNamespace(samplefile=regression_info, \
+                                name=args.ofilename, \
+                                k27achdf5=args.rpkm)
+        EnhancerIdentifier.main(enhancer_args)
+
         enhancer_profile = args.ofilename + '_enhancer_prediction_lasso.txt'
         if not os.path.exists(enhancer_profile):
             sys.stderr.write("Error: generating enhancer profile! \n")

@@ -35,10 +35,8 @@ def gene_sym(symfile):
 
     for line in fp:
         f = line.strip().split('\t')
-        #print f
         g = f[3]
         IDs = g.split(':')
-        #print IDs
         if IDs[1] not in symdict:
             symdict[IDs[1]] = [IDs[0], f[0]]
  
@@ -57,7 +55,7 @@ def logtransform(x):
     x = np.log2(xt) - np.log2(med)
     return x
 
-def sqrttansform(x):
+def sqrttransform(x):
     xt = np.array(x)
     med = np.median( xt,0 )
     x = np.sqrt(xt) - np.sqrt(med)
@@ -351,7 +349,7 @@ def main(args):
     if transform == 'log':
         z.x = logtransform(z.x)
     if transform == 'sqrt':
-        z.x = sqrttansform(z.x)
+        z.x = sqrttransform(z.x)
 
     (genenames,z.y,train_index,test_index) = read_genelistOnly(sym, gxfile, z.index, exptype)
 
@@ -359,6 +357,8 @@ def main(args):
     y = 1*( z.y == TARGET )
 
     x = z.x[:,:-5] # remove the last few columns: refseq, start, chr, etc...
+    print("Adaptive lasso RP matrix shape...")
+    print(np.shape(x))
     ann = dataset_annotation(annotation)
     auc,selected_features = adaptive_lasso(x,y,z.rpfiles,name,maxsamples,ann,genenames)
 
