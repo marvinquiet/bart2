@@ -15,14 +15,14 @@ under the terms of the BSD License.
 
 import os,sys,time
 import json
-import multiprocessing # multiprocessing on dealing with TF datasets
+# import multiprocessing # multiprocessing on dealing with TF datasets
 
 def get_tf_file_data(tf_json):
     starttime = time.time()
     with open(tf_json, 'r') as fm:
         tf_file_map = json.load(fm)
     endtime = time.time()
-    sys.stdout.write("Loading tf file mapping list: {} seconds".format(endtime-starttime))
+    sys.stdout.write("Loading tf file mapping list: {} seconds \n".format(endtime-starttime))
     return tf_file_map
     
 # 84M memory taken
@@ -47,10 +47,10 @@ def cal_auc_for_all_tfs(args, positions, matrix_data, tf_file_len):
         tf_t[i] = []
         tf_auc[i] = 0.0
     
-    #TODO: is it possible to use multiprocessing to deal with the data? tf_t for each group?
-    if args.processes:
-        sys.stdout.write('--Number of cores will be used: {}\n'.format(args.processes))
-        pool = multiprocessing.Pool(processes=args.processes)
+    #TODO: is it needed to multiprocess the data? tf_t for each group instead of a tf_t_accumulation?
+    # if args.processes:
+    #     sys.stdout.write('--Number of cores will be used: {}\n'.format(args.processes))
+    #     pool = multiprocessing.Pool(processes=args.processes)
 
     sys.stdout.write("Parsing data by group size: {} \n".format(groupsize))
     for group_id in range(groups+1):
