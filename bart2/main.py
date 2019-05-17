@@ -101,7 +101,6 @@ def bart(options):
     '''
     sys.stdout.write("revised BART!...\n")
     sys.stdout.write('Prediction starts...\n\nRank all DHS...\n')
-    positions = AUCcalc.get_position_list(enhancer_profile)
     tf_aucs, tf_index = AUCcalc.cal_auc(args, positions)
 
     stat_file = args.ofilename + '_bart_results.txt'
