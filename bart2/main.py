@@ -99,7 +99,7 @@ def bart(options):
     '''
     Start using revised BART on calculating the AUC score for each TF ChIP-seq dataset
     '''
-    sys.stdout.write("revised BART!...\n")
+    sys.stdout.write("bart2!...\n")
     sys.stdout.write('Prediction starts...\n\nRank all DHS...\n')
     tf_aucs, tf_index = AUCcalc.cal_auc(args, positions)
 
